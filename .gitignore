@@ -1,0 +1,13 @@
+# Ignore hidden files
+.*
+!.gitignore
+
+# Ignore Vagrant-specific files
+.vagrant/
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
