@@ -1,111 +1,190 @@
-# test-sre
-## Tasks
-1 - Build a script to install base servers for a production environment, and use any
-automation tools that suit you (ansible*, salt stack, terraform, bash...). The solution should
-set up the following components, and make any changes as you see fit so that we can
-assess your consideration for a production-grade system.
-- "Sysadmin" accounts with sudo privilege; hostname (dns); cli commands you use
-often.
-- Install docker daemon, specify logging driver + storage driver of your choice.
-- The server should be prepared/tuned for a high network traffic workload.
-- Logging Every Command Executed by Users and saving in a specific file.
+# SRE Tasks
 
-2 - Describe your idea to monitor the resource utilization of a Tech Stack. Draw a model
-that is Scalable, Resilient, and Responsive to the most traffic you have ever deployed.
+## Task 1: Build a Script for Production Server Setup
 
-3 - When you receive an alert that a service is down or slow, what would you do to check
-that service and resolve the issue? Describe your steps to resolve and prevent the problem
-(you can describe a real situation that you have encountered).
+### Objective
+Build a script to install base servers for a production environment using any suitable automation tools (ansible*, salt stack, terraform, bash...).
 
-1 - Xây dựng một script để cài đặt các máy chủ cơ sở cho môi trường sản xuất và sử dụng bất kỳ công cụ tự động hóa nào phù hợp với bạn (ansible*, salt stack, terraform, bash…). Giải pháp nên thiết lập các thành phần sau và thực hiện các thay đổi mà bạn thấy phù hợp để chúng tôi có thể đánh giá sự cân nhắc của bạn cho một hệ thống đạt tiêu chuẩn sản xuất.
+### Requirements
+The solution should set up the following components with consideration for a production-grade system:
 
-- Tài khoản "Sysadmin" với quyền sudo; hostname (dns); các lệnh cli bạn thường sử dụng.
-- Cài đặt docker daemon, chỉ định logging driver và storage driver theo ý bạn.
-- Máy chủ nên được chuẩn bị/tinh chỉnh để chịu tải cao từ lưu lượng truy cập mạng.
-- Ghi lại mọi lệnh được thực hiện bởi người dùng và lưu trữ trong một tệp cụ thể.
+1. **"Sysadmin" accounts:**
+   - With sudo privileges
+   - Set up hostname (dns)
+   - Include commonly used CLI commands
 
-2 - Mô tả ý tưởng của bạn để giám sát việc sử dụng tài nguyên của một Tech Stack. Vẽ mô hình mà bạn đã triển khai có khả năng mở rộng, đáng tin cậy và phản ứng tốt với lưu lượng truy cập cao nhất mà bạn đã từng triển khai.
+2. **Docker daemon installation:**
+   - Specify logging driver
+   - Choose appropriate storage driver
 
-3 - Khi bạn nhận được cảnh báo rằng một dịch vụ bị ngừng hoặc chậm, bạn sẽ làm gì để kiểm tra dịch vụ đó và giải quyết vấn đề? Mô tả các bước của bạn để giải quyết và ngăn chặn vấn đề (bạn có thể mô tả một tình huống thực tế mà bạn đã gặp phải).
+3. **Server optimization:**
+   - Prepare/tune for high network traffic workload
 
-## Thực hiện:
+4. **Command logging:**
+   - Log every command executed by users
+   - Save logs in a specific file
 
-Với yêu cầu là xây dựng một script để cài đặt máy chủ cơ sở cho môi trường sản xuất, mình sẽ sử dụng công cụ bash script, từ đó có thể dùng ansible để cấu hình một cách dễ dàng hơn. 
-Môi trường để chạy script là Ubuntu 22.04 LTS, một distro ổn định còn được support đến 2027. 
+### Implementation
+We'll use a bash script for initial setup, which can be easily integrated with Ansible for more complex configurations.
 
+#### Environment
+- Operating System: Ubuntu 22.04 LTS (supported until 2027)
 
-Hướng dẫn nhanh test
-1 - Cài đặt gói phụ thuộc (virutalBox, Vagrant, Ansible)
+#### Quick Setup Guide
 
-  1. Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
-  2. Download and install [Vagrant](http://www.vagrantup.com/downloads.html).
-  3. [Mac/Linux only] Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
+1. **Install Dependencies**
+   - VirtualBox: [Download here](https://www.virtualbox.org/wiki/Downloads)
+   - Vagrant: [Download here](http://www.vagrantup.com/downloads.html)
+   - Ansible (Mac/Linux only): [Installation guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-Lưu ý cho người dùng Window: Hướng dẫn phù hợp cho người dùng MAC và linux. Windows host chưa được hỗ trợ tại thời điểm này. 
-### 2- Chạy Máy ảo
-  1. Tải project này về 
-  2. Mở Terminal, cd tới thư mục đó
-  3. Gõ `vagrant up`, chờ vagrant hoàn thành phần còn lại
-### Notes
-- Để tắt máy ảo, chạy `vagrant halt` trên terminal ở folder chứa cùng file `Vagrantfile`. Để xóa bỏ hoàn toàn (hoặc muốn tiết kiệm một chút phân vùng ổ cứng, hoặc muốn rebuild), gõ `vagrant destroy`.
+   > **Note for Windows Users:** This guide is optimized for Mac and Linux. Windows support is limited at this time.
 
-Mặc định thư mục khi chạy lệnh vagrant sẽ đồng bộ với thư mục trong /vargrant/ . Để chạy script, chạy lệnh `sudo sh /vagrant/scripts/setup-server.sh`
+2. **Run the Virtual Machine**
+   1. Clone this project
+   2. Open Terminal and navigate to the project directory
+   3. Run `vagrant up` and wait for Vagrant to complete the setup
 
+3. **Additional Notes**
+   - To shut down the VM: Run `vagrant halt` in the directory containing the `Vagrantfile`
+   - To completely remove the VM: Run `vagrant destroy`
+   - The `/vagrant/` directory in the VM is synced with the project directory on your host machine
+   - To run the setup script: Execute `sudo sh /vagrant/scripts/setup-server.sh`
 
-Ý tưởng giám sát tài nguyên của một techstack.
-1. Xác định các chỉ số cần giám sát
-   - Máy chủ: CPU, Disks, Disks I/O, Network I/O, thời gian hoạt động, tải trung bình
-   - CSDL: Hiệu suất truy vấn, số lượng kết nối, độ trễ sao chép, tỷ lệ cache hit. 
-   - Ứng dụng: Thời gian phản hồì, tỷ lệ yêu cầu, tỷ lệ lỗi, số lượng luồng, quản lý bộ nhớ. 
-   - mạng: độ trễ, băng thông sử dụng, mất gói, tỷ lệ lỗi
-   - Container: Sử dụng CPU/bộ nhớ của container, trạng thái container, sử dụng tài nguyên của node
-2. Chọn công cụ monitor phù hợp
-   - Prometheus: Thu thập dữ liệu thời gian thực và cảnh báo
-   - Grafana: Trực quan hóa các chỉ số được thu thập bởi Prometheus
-   - ELK Stack: Phân tích Log ứng dụng
-3. Triển khai thu thập dữ liệu
-   - Prometheus server: thu thập các chỉ số từ các exporter và lưu trữ chúng
-   - Logstash: thu thập log từ nhiều nguồn và chuyển tiếp tới elastic
-   - Elasticsearch: lưu trữ và lập chỉ mục
-   - Grafana: Tạo các bảng điều khiển để trực quan hóa các chỉ số 
-4. Thiết lập cảnh báo
-   - Prometheus Alertmanager: gửi cảnh báo dựa vào chỉ số của Prometheus 
-5. Tạo bảng điều khiển
-   - Server Health Dashboard: hiển thị sử dụng CPU, bộ nhớ , đĩa và mạng cho tất cả máy chủ
-   - Database Performance Dashboard: hiển thị hiệu suất truy vấn, tốc độ giao dịch và trạng thái sao chép
-   - Application Performance Dashboard: theo dõi thời gian phản hồi, tỷ lệ yêu cầu và tỷ lệ lỗi
-   - Network Performance Dashboard: giám sát độ trễ, sử dụng băng thông và tỷ lệ lỗi
+## Task 2: Monitoring Resource Utilization of a Tech Stack
 
-![grafana-demo](/images/grafana-demo.png)
+### Monitoring Strategy
 
+1. **Identify Key Metrics**
+   - **Servers:** CPU, Disks, Disk I/O, Network I/O, uptime, average load
+   - **Databases:** Query performance, connection count, replication lag, cache hit ratio
+   - **Applications:** Response time, request rate, error rate, thread count, memory management
+   - **Network:** Latency, bandwidth usage, packet loss, error rates
+   - **Containers:** CPU/memory usage, container status, node resource utilization
 
-Vẽ mô hình mà bạn đã triển khai có khả năng mở rộng, đáng tin cậy và phản ứng tốt với lưu lượng truy cập cao nhất mà bạn đã từng triển khai.
+2. **Choose Appropriate Monitoring Tools**
+   - Prometheus: Real-time data collection and alerting
+   - Grafana: Visualization of metrics collected by Prometheus
+   - ELK Stack: Application log analysis
 
-![architecture](/images/architect.drawio.png)
+3. **Implement Data Collection**
+   - Prometheus server: Collect metrics from exporters and store them
+   - Logstash: Collect logs from various sources and forward to Elasticsearch
+   - Elasticsearch: Store and index logs
+   - Grafana: Create dashboards for metric visualization
 
-Thành Phần Chính của Mô Hình
-1. User:
+4. **Set Up Alerting**
+   - Prometheus Alertmanager: Send alerts based on Prometheus metrics
 
-- Web Browser: Người dùng truy cập trang web qua trình duyệt web.
-- Mobile App: Người dùng truy cập dịch vụ qua ứng dụng di động.
-- DNS: Hệ thống phân giải tên miền, chuyển đổi tên miền (ví dụ: www.mysite.com) thành địa chỉ IP của máy chủ.
-2. Load Balancer:
+5. **Create Dashboards**
+   - Server Health Dashboard
+   - Database Performance Dashboard
+   - Application Performance Dashboard
+   - Network Performance Dashboard
 
-- Cân bằng tải, phân phối các yêu cầu từ người dùng đến các máy chủ web khác nhau để đảm bảo không có máy chủ nào bị quá tải.
-3. Web Tier:
+### Scalable, Resilient, and Responsive Architecture
 
-- Server 1 và Server 2: Các máy chủ web xử lý các yêu cầu từ người dùng. Các máy chủ này có thể xử lý đồng thời nhiều yêu cầu và cung cấp dịch vụ web.
-4. Data Tier:
+![Architecture Diagram](/images/architect.drawio.png)
 
-- Master DB: Cơ sở dữ liệu chính, nơi thực hiện các thao tác ghi (write) dữ liệu.
-- Slave DB: Các cơ sở dữ liệu phụ, nơi thực hiện các thao tác đọc (read) dữ liệu và nhận dữ liệu sao chép từ cơ sở dữ liệu chính.
-- Replication: Quá trình sao chép dữ liệu từ Master DB đến các Slave DB để đảm bảo tính nhất quán và độ tin cậy của dữ liệu.
-5. Cache:
+#### Key Components
 
-- Hệ thống cache (ví dụ: Redis) lưu trữ tạm thời các dữ liệu thường xuyên truy cập để giảm tải cho cơ sở dữ liệu và tăng tốc độ phản hồi.
-Logging, Metrics, Monitoring, and Automation:
+1. **User Layer**
+   - Web Browsers
+   - Mobile Apps
+   - DNS for domain resolution
 
-6. Logging: Ghi nhật ký các hoạt động và sự kiện của hệ thống để phục vụ cho việc phân tích và khắc phục sự cố.
-- Metrics: Thu thập và phân tích các chỉ số hiệu suất của hệ thống để giám sát tình trạng hoạt động.
-- Monitoring: Giám sát liên tục hệ thống để phát hiện và cảnh báo các vấn đề kịp thời.
-- Automation: Tự động hóa các quy trình quản lý và vận hành hệ thống để nâng cao hiệu quả và giảm thiểu lỗi.
+2. **Load Balancer**
+   - Distributes requests across web servers
+
+3. **Web Tier**
+   - Multiple web servers (Server 1, Server 2, etc.)
+
+4. **Data Tier**
+   - Master DB for write operations
+   - Slave DBs for read operations
+   - Replication for data consistency
+
+5. **Cache Layer**
+   - e.g., Redis for frequently accessed data
+
+6. **Monitoring and Management**
+   - Logging
+   - Metrics collection
+   - Monitoring systems
+   - Automation tools
+
+## Task 3: Incident Response and Problem Resolution
+
+### Steps for Resolving Service Issues
+
+1. **Confirm the Alert**
+   - Verify alert accuracy in monitoring systems
+   - Review relevant metrics and parameters
+
+2. **Assess Impact**
+   - Determine scope and severity of the issue
+   - Check for effects on end-users or other services
+
+3. **Quick Health Check**
+   - Verify network connectivity
+   - Check system resources (CPU, RAM, Disk space)
+   - Review status of relevant processes
+
+4. **Analyze Logs**
+   - Examine application, system, and database logs for errors or anomalies
+
+5. **Review Recent Changes**
+   - Check for recent updates, configuration changes, or deployments
+
+6. **Implement Quick Fixes**
+   - Restart services if necessary
+   - Adjust system resources if they're the bottleneck
+
+7. **Apply Long-term Solutions**
+   - Address root causes to prevent recurrence
+   - Update documentation and operational procedures
+
+8. **Monitor and Report**
+   - Continue monitoring the service post-fix
+   - Prepare incident reports for stakeholders
+
+### Real-world Example: Web Service Slowdown
+
+#### Context
+- Alert received: Web service response time spike
+- User reports: Extremely slow page loads
+
+#### Resolution Steps
+
+1. **Alert Confirmation**
+   - Monitoring dashboard shows response time increase from 200ms to 2000ms
+
+2. **Impact Assessment**
+   - All users affected
+   - No other services impacted
+
+3. **Quick Health Check**
+   - Network connectivity normal
+   - Web server CPU usage at 90%
+
+4. **Log Analysis**
+   - Logs indicate a sudden spike in request volume
+
+5. **Change Review**
+   - No recent code or configuration changes
+
+6. **Quick Fix**
+   - Increased number of web server nodes
+
+7. **Long-term Solution**
+   - Root cause: New marketing campaign causing traffic surge
+   - Implement auto-scaling for rapid response to load increases
+   - Collaborate with dev team to optimize code for high traffic
+
+8. **Follow-up**
+   - Continuous monitoring for 24 hours
+   - Detailed report prepared for management and marketing teams
+
+#### Outcome
+- Service returned to normal within 30 minutes
+- Improved capacity to handle high loads in the future
+- Enhanced coordination between teams for predicting and preparing for large marketing campaigns
