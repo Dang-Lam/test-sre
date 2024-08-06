@@ -31,4 +31,19 @@ that service and resolve the issue? Describe your steps to resolve and prevent t
 ### Thực hiện:
 
 Với yêu cầu là xây dựng một script để cài đặt máy chủ cơ sở cho môi trường sản xuất, mình sẽ sử dụng công cụ bash script, từ đó có thể dùng ansible để cấu hình một cách dễ dàng hơn. 
+Môi trường để chạy script là Ubuntu 22.04 LTS, một distro ổn định còn được support đến 2027. 
 
+
+Hướng dẫn nhanh test
+1 - Cài đặt gói phụ thuộc (virutalBox, Vagrant, Ansible)
+
+  1. Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+  2. Download and install [Vagrant](http://www.vagrantup.com/downloads.html).
+  3. [Mac/Linux only] Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
+
+Lưu ý cho người dùng Window: Hướng dẫn phù hợp cho người dùng MAC và linux. Windows host chưa được hỗ trợ tại thời điểm này. 
+
+## Notes
+    - Để tắt máy ảo, chạy `vagrant halt` trên terminal ở folder chứa cùng file `Vagrantfilt`. Để xóa bỏ hoàn toàn (hoặc muốn tiết kiệm một chút phân vùng ổ cứng, hoặc muốn rebuild), gõ `vagrant destroy`.
+
+Mặc định thư mục khi chạy lệnh vagrant sẽ đồng bộ với thư mục trong /vargrant/ . Để chạy script, chạy lệnh `sudo scripts/setup-server.sh`
